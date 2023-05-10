@@ -14,11 +14,13 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        /* height: 10vh; */
         margin-top: 50px;
       }
       #downloadBtn {
         margin-top: 20px;
+      }
+      h2.faq-title {
+        margin-top: 100px;
       }
       .faq {
         text-align: left;
@@ -34,11 +36,19 @@
         We provide free downloads of high quality bits in bulk right to your
         personal computer.
       </p>
+      <label for="length">Number of bits:</label>
+      <input type="number" id="length" value="120" min="1" />
+      <br />
+
+      <label for="fraction">Fraction of '1's:</label>
+      <input type="range" id="fraction" value="75" min="0" max="100" step="1" />
+      <span id="fractionValue">0.75</span>
+      <br />
       <button id="downloadBtn">Download bits</button>
     </div>
 
     <div class="faq">
-      <h2>FAQ</h2>
+      <h2 class="faq-title">FAQ</h2>
       <dl>
         <dt><b>Q:</b> Are these bits really free?</dt>
         <dt>
@@ -64,16 +74,35 @@
           <pre><code>
             rm bits.json
         </code></pre>
-          and send a screenshot of your terminal to our customer support.
+          and send a screenshot of your terminal to our
+          <a href="https://twitter.com/briantimar">customer support</a>.
         </dt>
       </dl>
     </div>
 
     <script>
+      function genBits(length, fraction) {
+        let str = ''
+        for (let i = 0; i < length; i++) {
+          str += Math.random() < fraction ? '1' : '0'
+        }
+        return str
+      }
+
+      function updateFraction() {
+        const fraction = parseFloat(this.value / 100)
+        document.getElementById('fractionValue').textContent =
+          fraction.toFixed(2)
+      }
+
       document
         .getElementById('downloadBtn')
         .addEventListener('click', function () {
-          const data = { bits: '00010101' }
+          const length = parseInt(document.getElementById('length').value)
+          const fraction = parseFloat(
+            document.getElementById('fraction').value / 100
+          )
+          const data = { bits: genBits(length, fraction), 0: 0, 1: 1 }
           const json = JSON.stringify(data)
           const blob = new Blob([json], { type: 'application/json' })
           const url = URL.createObjectURL(blob)
@@ -83,6 +112,14 @@
           a.download = 'bits.json'
           a.click()
           URL.revokeObjectURL(url)
+        })
+
+      document
+        .getElementById('fraction')
+        .addEventListener('input', function () {
+          const fraction = parseFloat(this.value / 100)
+          document.getElementById('fractionValue').textContent =
+            fraction.toFixed(2)
         })
     </script>
   </body>
