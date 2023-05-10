@@ -1,26 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bulk bits</title>
-</head>
-<body>
-  <button id="downloadBtn">Download my bits</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bulk bits</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        /* height: 10vh; */
+        margin-top: 50px;
+      }
+      #downloadBtn {
+        margin-top: 20px;
+      }
+      .faq {
+        text-align: left;
+        width: 50%;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bulk Bits</h1>
+      <p>
+        We provide free downloads of high quality bits in bulk right to your
+        personal computer.
+      </p>
+      <button id="downloadBtn">Download bits</button>
+    </div>
 
-  <script>
-    document.getElementById('downloadBtn').addEventListener('click', function() {
-      const data = { bits: '000110101' };
-      const json = JSON.stringify(data);
-      const blob = new Blob([json], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+    <div class="faq">
+      <h2>FAQ</h2>
+      <dl>
+        <dt><b>Q:</b> Are these bits really free?</dt>
+        <dt>
+          <b>A:</b> &emsp; Yes! All our bits are 100% free and always will be.
+        </dt>
+        <br />
+        <dt>
+          <b>Q:</b> How are you able to provide so many bits at such a low cost?
+        </dt>
+        <dt>
+          <b>A:</b> &emsp; Our proprietary software is able to produce bits at a
+          much lower cost than our competitors; we pass these savings on to our
+          users.
+        </dt>
+        <br />
+        <dt>
+          <b>Q:</b> Your bits did not meet my expectations. How can I get a
+          refund?
+        </dt>
+        <dt>
+          <b>A:</b> &emsp; We're sorry to hear that! To receive your refund,
+          please remove the bits from your computer
+          <pre><code>
+            rm bits.json
+        </code></pre>
+          and send a screenshot of your terminal to our customer support.
+        </dt>
+      </dl>
+    </div>
 
-      a.href = url;
-      a.download = 'data.json';
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-  </script>
-</body>
+    <script>
+      document
+        .getElementById('downloadBtn')
+        .addEventListener('click', function () {
+          const data = { bits: '00010101' }
+          const json = JSON.stringify(data)
+          const blob = new Blob([json], { type: 'application/json' })
+          const url = URL.createObjectURL(blob)
+          const a = document.createElement('a')
+
+          a.href = url
+          a.download = 'bits.json'
+          a.click()
+          URL.revokeObjectURL(url)
+        })
+    </script>
+  </body>
 </html>
